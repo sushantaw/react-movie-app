@@ -14,6 +14,7 @@ function Home() {
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault();
         alert(`Searching for ${searchQuery}`);
+        searchQuery.trim() === "" ? alert("Please enter a search query") : null;
     }   
 
     return (
@@ -24,9 +25,11 @@ function Home() {
             </form>
             <h1>Home Page</h1>
             <div className="movie-grid">
-                {movies.map(movie => (
-                    <MovieCard key={movie.id} movie={movie} />
-                ))}
+                {movies
+                    .filter(movie => searchQuery.trim() === "" || movie.title.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map(movie => (
+                        <MovieCard key={movie.id} movie={movie} />
+                    ))}
             </div>
         </div>  
     )
