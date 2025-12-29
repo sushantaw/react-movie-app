@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import './index.css'
+import './css/Index.css';  // change from '../css/Index.css'
 import App from './App'
 // import App from './App.tsx'
 

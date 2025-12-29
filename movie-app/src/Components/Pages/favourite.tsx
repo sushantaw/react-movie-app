@@ -1,5 +1,5 @@
 //
-
+import '../../css/Favourite.css';  // change from './css/Favourite.css'
 function Favourite() {
     return (
         <div className="favourite-empty">

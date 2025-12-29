@@ -1,4 +1,5 @@
 // This is a card component for displaying the mainly movie posters and titles.
+import '../css/MovieCard.css';
 
 function MovieCard ({ movie }: { movie: any }) {
 
