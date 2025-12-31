@@ -7,7 +7,7 @@ export const getPopularMovies = async () => {
     return data.results;
 };
 
-export const searchMovies = async (query) => {
+export const searchMovies = async (query: string) => {
     const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_key}&query=${encodeURIComponent(query)}&language=en-US&page=1&include_adult=false`);
     const data = await response.json();
     return data.results;

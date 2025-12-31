@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { searchMovies, getPopularMovies } from "../../api"; // removed unused imports
-import MovieCard from "../MovieCard"    
-import '../../css/Home.css';  // change from './css/Home.css'
+import React, { useState, useEffect } from "react";
+import { searchMovies, getPopularMovies } from "../api/moviesApi";
+import MovieCard from "../Components/MovieCard";
+import '../css/Home.css';
 // removed unused import: searchMovies, getPopularMovies
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState<string> ("");   
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -24,11 +24,24 @@ function Home() {
             loadPopularMovies().finally(() => setLoading(false));
     }, []);
 
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => { 
+    const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        alert(`Searching for ${searchQuery}`);
-        searchQuery.trim() === "" ? alert("Please enter a search query") : null;
-    }   
+        if (searchQuery.trim() === "") {
+            alert("Please enter a search query");
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try {
+            const results = await searchMovies(searchQuery);
+            setMovies(results);
+        } catch (err) {
+            console.error("Search error:", err);
+            setError("Failed to search movies.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="home">
@@ -36,6 +49,7 @@ function Home() {
                 <input type="text" placeholder="Search for movies" className="search-input" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 <button type="submit" className="search-button">Search</button>
             </form>
+            {loading ? <div className = "loading">Loading...</div> : error ? <div className="error-message">{error}</div> : null}
             <h1>Home Page</h1>
             <div className="movie-grid">
                 {movies
