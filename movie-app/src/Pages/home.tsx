@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { searchMovies, getPopularMovies } from "../api/moviesApi";
+import { searchMovies, getPopularMovies } from "../api/api";
 import MovieCard from "../Components/MovieCard";
 import '../css/Home.css';
-// removed unused import: searchMovies, getPopularMovies
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState<string> ("");   
@@ -49,6 +48,8 @@ function Home() {
                 <input type="text" placeholder="Search for movies" className="search-input" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 <button type="submit" className="search-button">Search</button>
             </form>
+
+            {error && <div className="error-message">{error}</div> }
             {loading ? <div className = "loading">Loading...</div> : error ? <div className="error-message">{error}</div> : null}
             <h1>Home Page</h1>
             <div className="movie-grid">
